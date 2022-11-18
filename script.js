@@ -23,27 +23,86 @@
 
 
 // $(function () {
-//   let today = dayjs();
-//   $('currentDay').text(today.format('dddd MMMM D'));
-//   //save item in local storage
+
 //   function saveItem(event) {
 //     // when save button is clicked what is in text area is saved in local storage
 //     let saveBtnClick = $(event.target)
 
 //   }
 
-//   // apply classes to time block
 
-//   // display current date
 
-// });
+
+
+
+// }
 
 function showDate() {
+
   let today = dayjs();
+
+  // This displays the current day
   $('#currentDay').text(today.format('dddd, MMMM D'));
 
 }
-showDate()
+showDate();
+
+function pastPresentFuture() {
+
+  let hourNine = $('#hour-9');
+  let hourTen = $('#hour-10');
+  let hourEleven = $('#hour-11');
+  let hourTwelve = $('#hour-12');
+  let hourOne = $('#hour-1');
+  let hourTwo = $('#hour-2');
+  let hourThree = $('#hour-3');
+  let hourFour = $('#hour-4');
+  let hourFive = $('#hour-5');
+
+
+  const hoursArray = [
+    { elem: hourNine, hour: 9 },
+    { elem: hourTen, hour: 10 },
+    { elem: hourEleven, hour: 11 },
+    { elem: hourTwelve, hour: 12 },
+    { elem: hourOne, hour: 13 },
+    { elem: hourTwo, hour: 14 },
+    { elem: hourThree, hour: 15 },
+    { elem: hourFour, hour: 16 },
+    { elem: hourFive, hour: 17 },
+  ]
+  for (let i = 0; i < hoursArray.length; i++) {
+    let timeNow = dayjs().hour();
+
+
+
+    if (timeNow < hoursArray[i].hour) {
+      hoursArray[i].elem.addClass('future');
+    } else if (timeNow > hoursArray[i].hour) {
+      hoursArray[i].elem.addClass('past');
+    } else {
+      hoursArray[i].elem.addClass('present');
+    }
+  }
+}
+pastPresentFuture();
+
+
+function saveItem(event) {
+  let saveBtnClick = $(event.currentTarget);
+  let textAreaTarget = saveBtnClick.siblings('textarea')
+  console.log(saveBtnClick);
+  console.log(textAreaTarget);
+  console.log(textAreaTarget.val());
+
+
+  localStorage.setItem('text', JSON.stringify(textAreaTarget.val()));
+
+}
+
+let saveBtn = $('.saveBtn')
+
+saveBtn.on('click', saveItem)
 
 // classes = past, present, future
 
