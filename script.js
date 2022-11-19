@@ -22,20 +22,7 @@
 // TODO: Add code to display the current date in the header of the page.
 
 
-// $(function () {
 
-//   function saveItem(event) {
-//     // when save button is clicked what is in text area is saved in local storage
-//     let saveBtnClick = $(event.target)
-
-//   }
-
-
-
-
-
-
-// }
 
 function showDate() {
 
@@ -47,30 +34,34 @@ function showDate() {
 }
 showDate();
 
+
+
+let hourNine = $('#hour-9');
+let hourTen = $('#hour-10');
+let hourEleven = $('#hour-11');
+let hourTwelve = $('#hour-12');
+let hourOne = $('#hour-13');
+let hourTwo = $('#hour-14');
+let hourThree = $('#hour-15');
+let hourFour = $('#hour-16');
+let hourFive = $('#hour-17');
+
+
+const hoursArray = [
+  { elem: hourNine, hour: 9 },
+  { elem: hourTen, hour: 10 },
+  { elem: hourEleven, hour: 11 },
+  { elem: hourTwelve, hour: 12 },
+  { elem: hourOne, hour: 13 },
+  { elem: hourTwo, hour: 14 },
+  { elem: hourThree, hour: 15 },
+  { elem: hourFour, hour: 16 },
+  { elem: hourFive, hour: 17 },
+]
+
 function pastPresentFuture() {
 
-  let hourNine = $('#hour-9');
-  let hourTen = $('#hour-10');
-  let hourEleven = $('#hour-11');
-  let hourTwelve = $('#hour-12');
-  let hourOne = $('#hour-1');
-  let hourTwo = $('#hour-2');
-  let hourThree = $('#hour-3');
-  let hourFour = $('#hour-4');
-  let hourFive = $('#hour-5');
 
-
-  const hoursArray = [
-    { elem: hourNine, hour: 9 },
-    { elem: hourTen, hour: 10 },
-    { elem: hourEleven, hour: 11 },
-    { elem: hourTwelve, hour: 12 },
-    { elem: hourOne, hour: 13 },
-    { elem: hourTwo, hour: 14 },
-    { elem: hourThree, hour: 15 },
-    { elem: hourFour, hour: 16 },
-    { elem: hourFive, hour: 17 },
-  ]
   for (let i = 0; i < hoursArray.length; i++) {
     let timeNow = dayjs().hour();
 
@@ -95,8 +86,14 @@ function saveItem(event) {
   console.log(textAreaTarget);
   console.log(textAreaTarget.val());
 
+  let textObj = JSON.parse(localStorage.getItem('text')) || {};
+  let hourId = textAreaTarget.parent().attr('id');
+  console.log(hourId);
+  textObj[hourId] = textAreaTarget.val().trim();
+  console.log(textObj);
 
-  localStorage.setItem('text', JSON.stringify(textAreaTarget.val()));
+
+  localStorage.setItem('text', JSON.stringify(textObj));
 
 }
 
@@ -104,16 +101,19 @@ let saveBtn = $('.saveBtn')
 
 saveBtn.on('click', saveItem)
 
-// classes = past, present, future
-
-// If time is current time class = present and previous time = past and next time = future
-//  .addClass()
-
-//  .removeClass()
-
-// function pastPresentFuture() {
+function getItem() {
+  const items = JSON.parse(localStorage.getItem('text'));
 
 
-// }
+  for (let i = 0; i < hoursArray.length; i++) {
+    let hourConfig = hoursArray[i]
+    let textElem = hourConfig.elem.find('textarea');
+    let id = 'hour-' + hourConfig.hour;
+    const value = items[id]
+    textElem.val(value);
+
+  }
+}
 
 
+getItem()
